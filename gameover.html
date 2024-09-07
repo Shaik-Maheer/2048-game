@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOPS Game Over</title>
+    <style>
+        body{
+            background-image: url("https://t4.ftcdn.net/jpg/04/09/70/87/360_F_409708782_HxuxOH8f7xSmj5p4ygbAbuJE74vGGj2N.jpg");
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        h1{
+            color: aliceblue;
+            font-size: 100px;
+            animation: colors 1s infinite linear;
+            font-family: "Merienda", system-ui;
+        }
+        button{
+            padding: 10px 20px;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: rgb(42, 110, 200);
+            color: rgb(186, 12, 186);
+        }
+        button:hover{
+            background-color: rgb(186, 12, 186);
+            color:rgb(42, 110, 200);
+            transform: scale(1.5)
+        }
+        @media (max-width:500px){
+            h1{
+               font-size: 70px; 
+            }
+            button{
+                font-size: 20px;
+            }
+        }
+        @keyframes colors {
+        0% {
+            color:khaki; 
+        }
+        25% {
+            color: #f2f0f6; 
+        }
+        50% {
+            color: #f19cbb; 
+        }
+        75% {
+            color: lightgreen; 
+        }
+        100% {
+            color: khaki; 
+        }
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Over</h1>
+    <button>Play Again</button>
+    <script>
+        let btn = document.querySelector("button");
+        btn.addEventListener("click",()=>{
+            window.location.href="index.html";
+        })
+    </script>
+</body>
+</html>

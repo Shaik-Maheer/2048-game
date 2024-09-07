@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 game</title>
+    <style>
+        body{
+            background-size: cover;
+             background-image: url("https://lease.drivalia.com/assets/img/share/bg-hero-offers.jpg?k=c56eb50c76"); 
+        }   
+        .box_score{
+            display: flex;
+            justify-content: center;
+            gap:10px;
+            font-size: 20px;
+        }
+        .box_score div{
+            border:3px solid aliceblue;
+            padding: 5px 10px;
+            color:white;
+        }
+        main{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        hr{
+            width: 400px;
+        }
+        h1,h3{
+            text-align: center;
+            color: aliceblue;
+        }
+        button{
+            background-color:green ;
+            padding: 8px 20px;
+            color: white;
+            font-weight: bolder;
+            border: none;
+        }
+        .box{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-gap:6px;
+            background:linear-gradient(to bottom right , #0048ba , magenta);
+            padding: 8px;
+            border-radius: 10px;
+        }
+        .smallbox{
+            height: 100px;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color:black;
+            font-size: 24px;
+            font-weight: bolder;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .right {
+        position: absolute;
+        right: 0;
+        float: right;
+        padding: 20px;
+        }
+        .right a{
+            text-decoration: none;
+            color:powderblue;
+            margin-right: 20px;
+            font-size: 25px;
+        }
+        .box_score div:hover, .btn:hover{
+            transform: scale(1.2);
+            margin-right: 20px;
+            margin-left:20px;
+        }
+        hr{
+            color:brown;
+        }
+        .sec4  a{
+            color:powderblue;
+            font-weight: bolder;
+            font-size: 27px;
+        }
+        .sec4 p{
+            background:linear-gradient(to bottom right , #0048ba , magenta);
+            color: transparent;
+            background-clip:text;
+            color:wheat;
+            font-size: 25px;
+            text-align: center;
+        }
+        .animate-highscore {
+            animation: highscore-animation 2s ease-in-out infinite;
+        }
+
+        @keyframes highscore-animation {
+            0% {
+                transform: scale(1);
+                color: green;
+            }
+            50% {
+                transform: scale(1.5);
+                color: yellow;
+            }
+            100% {
+                transform: scale(1);
+                color: green;
+            }
+        }
+        .animate-score {
+            animation: score-animation 2s ease-in-out infinite;
+        }
+        .title {
+            animation: color-cycle 3s infinite linear;
+            font-size: 25px;
+            font-family: "Merienda", system-ui;
+
+        }
+        @keyframes score-animation {
+            0% {
+                transform: scale(1);
+                color: red;
+            }
+            50% {
+                transform: scale(1.5);
+                color: yellow;
+            }
+            100% {
+                transform: scale(1);
+                color:red;
+            }
+        }
+        @media (max-width:600px) {
+            
+            .smallbox{
+                height: 70px;
+                width:80px;
+                font-size: 20px;
+            }
+            .box{
+            gap:5px;
+            padding: 10px;
+            margin-right: 50px;
+            margin-left: 20px;
+            border-radius: 10px;
+            }
+        }
+            
+        @keyframes color-cycle {
+        0% {
+            color:khaki; 
+        }
+        25% {
+            color: #f2f0f6;
+        }
+        50% {
+            color: #f19cbb; 
+        }
+        75% {
+            color: lightgreen; 
+        }
+        100% {
+            color: khaki; 
+        }
+        }
+    </style>
+</head>
+<body>
+    <section class="right">
+        <a href="membership.html">[Get Membership]</a> 
+        <a href="login.html">[My account]</a>
+    </section>
+    <br>
+    <br>
+    <main>
+        <div class="all">
+            <h1><span style="font-size: 50px;">
+                <span style="color:khaki ;">2</span>
+                <span style="color: #f2f0f6;">0</span>
+                <span style="color: #f19cbb;">4</span>
+                <span style="color:lightgreen ;">8</span>
+            </span>
+            <span style="color: powderblue;">Game....</span></h1>
+            <hr>
+            <br>
+            <div class="box_score">
+                <div><strong>Score : </strong><span class="score animate-score" style="color: red;">0</span></div>
+                <div><strong>Highscore : </strong><span class="highscore animate-highscore" style="color: lightgreen;"> 0</span></div>
+                <button class="btn">New Game</button>
+            </div>
+            <h3 class="title">Join numbers to get to the 2048 tile!</h3>
+        
+            <div class="box">
+            </div>
+        </div>
+    </main>
+    
+    <section class="sec4">
+        <p><a href="instructions.html">How to play 2048 :</a> Use arrow keys to move the tiles. When two tiles having the same number touch, they join into one!</p>
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", ()=>{
+            let grid = []; //keep track of cells which are creted duynamically
+            let box = document.querySelector(".box");
+            let hs = document.querySelector(".highscore");
+            let s = document.querySelector(".score");
+            let btn = document.querySelector(".btn");
+
+            let score = 0;
+            let highscore = 0;
+            
+            btn.addEventListener("click", ()=>{
+                
+                score = 0; //reset variable
+                s.innerText=score;
+                hs.innerText= highscore;
+                for(let i =0 ; i<grid.length ; i++){
+                    grid[i].innerText="";
+                    grid[i].style.backgroundColor="#fcc9b9";
+                }
+            })
+            function creategridconteiner(){
+                for(let i=0; i<16; i++){
+                let gridbox = document.createElement("div");
+                gridbox.classList.add("smallbox");
+                box.append(gridbox);
+                grid.push(gridbox);
+                }
+                generatetile();
+                generatetile();
+            }
+            function generatetile(){
+                let emptycells = grid.filter(a=> a.innerText === ""); //list of empty cells it contains arry like cell0 cll 1 ell 4 etc
+                if(emptycells.length>0) // to makae sure new tile s placed if there is atleast 1 empty cell.
+                {
+                    let cell = emptycells[Math.floor(Math.random()*emptycells.length)]; //randomly picks
+                    cell.innerText =2;
+                }
+                else if (GameOver()){
+                    alert("No More moves left");                  
+        
+                    s.innerText=0;
+                    score=0;
+                    for(let i =0 ; i<grid.length ; i++){
+                        grid[i].innerText="";
+                        grid[i].style.backgroundColor="#fcc9b9";
+                    }
+                    window.location.href ="gameover.html";
+                    
+                }
+                addColours()
+                
+                
+            }
+            function GameOver() {
+            for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 4; j++) {
+              let current = grid[i * 4 + j].innerText;
+              if (current === "") return flase; // Empty cell means a move is possible
+              if (i < 3 && current === grid[(i + 1) * 4 + j].innerText)
+                return false; // Check down
+              if (j < 3 && current === grid[i * 4 + j + 1].innerText)
+                return false; // Check right
+            }
+          }
+          return true;
+        }
+
+            const mergeSound = new Audio("song.wav");
+              
+        
+            document.addEventListener("keydown", (e)=>{ //e object information all. keydown -event trigeer when key is pressed.
+                if(e.key === "ArrowUp"){
+                    moveup();
+                }
+                if(e.key === "ArrowDown"){
+                    movedown();
+                }
+                if(e.key === "ArrowLeft"){
+                    moveleft();
+                }
+                if(e.key=== "ArrowRight"){
+                    moveright();
+                }
+            })
+            function moveup(){
+                for(let col=0 ; col<4 ;col++){
+                    let column = [];
+                    for(let row=0;row< 4 ; row++){   // untill 0 to 3
+                        column.push(grid[row * 4 + col])
+                    }
+                    mergetiles(column);
+                }
+                generatetile();
+            }
+            function movedown(){
+                for(let col=0 ; col<4 ; col++){
+                    let column = [];
+                    for(row = 3 ; row>=0 ; row--){ //untill 3 to 0 downwords
+                        column.push(grid[row * 4 + col])
+                    }
+                    mergetiles(column)
+                }
+                generatetile()
+            }
+            function moveleft(){
+                for(let row = 0 ; row<4 ; row++){
+                    let line = [];
+                    for(let col= 0 ; col<4 ; col++){
+                        line.push(grid[row*4+col]);
+                    }
+                    mergetiles(line)
+                }
+                generatetile()
+            }
+            function moveright(){
+                for(let row=0; row<4 ; row++){
+                    let line = [];
+                    for(let col=3 ; col>=0;col--){
+                        line.push(grid[(row *4 + col)]);
+                    }
+                    mergetiles(line);
+                }
+                generatetile();
+            }
+            function mergetiles(tiles){
+                console.log(tiles)
+                
+                let values = tiles.map(tile => parseInt(tile.innerText)|| 0);
+                 values = values.filter(value => value !== 0); //remove 0
+    
+                for(let i=0; i<values.length-1 ; i++) {//comparing 2 so -1
+                    if(values[i]=== values[i+1]){
+                        values[i] = values[i]*2;
+                        mergeSound.play();
+                        tiles[i].style.transition = "transform 0.2s ease-in-out, background-color 0.2s ease-in-out";
+
+                        score +=values[i];
+                        s.innerText=score;
+
+                        if (score>highscore){
+                            highscore=score;
+                            hs.innerText=highscore;
+                        }
+                        if(values.includes(2048)){
+                            alert("YOU WON...")
+                        }
+                        values[i+1]=0
+                }
+            }
+            values = values.filter(value=> value!==0);
+            while(values.length<4){
+                values.push(0);
+            }
+            for(let i=0;i<tiles.length ; i++){
+                tiles[i].innerText=values[i]===0 ? "":values[i];
+            }
+            
+        }
+    function addColours() {
+
+    for (let i=0; i < grid.length; i++) {
+      if (grid[i].innerText == 0){
+        grid[i].style.backgroundColor = "#f2f0f6"
+      }  // "#deb887" "#ead79c"
+       else if (grid[i].innerText == 2){
+        grid[i].style.backgroundColor ="khaki" 
+      } 
+      else if (grid[i].innerText  == 4){
+        grid[i].style.backgroundColor = "#f19cbb"
+      } 
+      else if (grid[i].innerText == 8){
+        grid[i].style.backgroundColor =  "lightgreen" 
+      } 
+      else if (grid[i].innerText  == 16){
+        grid[i].style.backgroundColor = "aqua"
+      } 
+      else if (grid[i].innerText == 32){
+        grid[i].style.backgroundColor = "#ff9966"
+      } 
+      else if (grid[i].innerText  == 64){
+        grid[i].style.backgroundColor = '#cfcfcf'
+      } 
+      else if (grid[i].innerText  == 128){
+        grid[i].style.backgroundColor = '#fd9982'
+      } 
+      else if (grid[i].innerText  == 256){
+        grid[i].style.backgroundColor = '#76daff'
+      } 
+      else if (grid[i].innerText  == 512){
+        grid[i].style.backgroundColor = '#f2b179'
+      } 
+      else if (grid[i].innerText  ==1024){
+        grid[i].style.backgroundColor = '#beeaa5'
+      } 
+      else if (grid[i].innerText  == 2048){
+        grid[i].style.backgroundColor = '#d7d4f0'
+      } 
+    }
+}
+
+
+            creategridconteiner();
+        })
+
+
+    </script>
+</body>
+</html>
